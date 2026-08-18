@@ -1,0 +1,24 @@
+name: Explanation request
+description: Propose another surprising local Git path state to explain.
+title: "[State]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What Git behavior is confusing?
+      description: Explain the user-visible symptom before proposing an implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Which read-only Git evidence can explain it?
+      description: Link official Git documentation when possible.
+    validations:
+      required: true
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Safety and scope notes
+      description: Note any platform differences, sensitive data, or mutating commands that must remain suggestions only.

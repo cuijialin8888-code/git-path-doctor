@@ -1,0 +1,42 @@
+name: Bug report
+description: Report a Git state that Git Path Doctor explains incorrectly.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for helping make the explanations more accurate. Remove secrets and private paths before posting output.
+  - type: input
+    id: version
+    attributes:
+      label: Git Path Doctor version
+      placeholder: git-path-doctor 0.1.0
+    validations:
+      required: true
+  - type: input
+    id: git-version
+    attributes:
+      label: Git version and operating system
+      placeholder: git version 2.x on Windows 11 / macOS / Linux
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal reproduction
+      description: Provide the smallest safe sequence of local Git commands that creates the state.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual output
+      description: Redact user names, repository paths, commits, and other private values.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected explanation
+    validations:
+      required: true

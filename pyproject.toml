@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "git-path-doctor"
+version = "0.1.0"
+description = "Explain why a path is tracked, ignored, hidden, or behaving strangely in Git."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Jialin Cui" }]
+keywords = ["git", "gitignore", "diagnostics", "developer-tools", "cli"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Software Development :: Version Control :: Git",
+]
+
+[project.urls]
+Homepage = "https://github.com/cuijialin8888-code/git-path-doctor"
+Documentation = "https://github.com/cuijialin8888-code/git-path-doctor#readme"
+Issues = "https://github.com/cuijialin8888-code/git-path-doctor/issues"
+Changelog = "https://github.com/cuijialin8888-code/git-path-doctor/blob/main/CHANGELOG.md"
+
+[project.scripts]
+git-path-doctor = "git_path_doctor.cli:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
