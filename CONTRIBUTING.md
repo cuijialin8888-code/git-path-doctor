@@ -26,6 +26,12 @@ python -m compileall -q src tests
 
 The project targets Python 3.10+ and uses only the standard library at runtime. Please avoid adding a dependency when a small, readable standard-library implementation is sufficient.
 
+## Routine maintenance
+
+- Keep GitHub Actions on verified immutable commit pins and confirm public CI before treating a workflow change as accepted.
+- Preserve Git as the evidence source for path state; do not replace its ignore or attribute behavior with heuristics during maintenance.
+- Keep path-bearing probes literal and read-only, including for sparse checkouts, linked worktrees, and unusual filenames.
+
 ## Pull requests
 
 - Keep behavior read-only.
