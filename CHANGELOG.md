@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+### Added
+
+- A path debugging workflow separating single-path explanation from repository-wide hidden-state scanning.
+
 ## [0.1.0] - 2026-08-18
 
 ### Added

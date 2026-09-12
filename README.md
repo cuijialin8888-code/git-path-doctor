@@ -132,7 +132,7 @@ The scope is intentionally narrow: explain local path state with Git’s own evi
 
 JSON includes the tool version, repository root, normalized paths, raw evidence fields, findings, and suggestions. Field names are additive within the `0.x` series; consumers should ignore unknown fields.
 
-See [how it works](docs/how-it-works.md) and the [JSON report reference](docs/report-schema.md).
+See [how it works](docs/how-it-works.md) and the [JSON report reference](docs/report-schema.md). See the [path debugging workflow](docs/path-debugging.md) for a repeatable explain-versus-scan sequence.
 
 ## Safety and privacy
 
