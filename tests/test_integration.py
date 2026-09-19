@@ -177,6 +177,23 @@ class ParserAndCliTests(unittest.TestCase):
         finally:
             fixture.close()
 
+    def test_sarif_cli_has_read_only_metadata(self) -> None:
+        fixture = GitFixture()
+        try:
+            fixture.write("tracked.txt", "content\n")
+            fixture.commit_all()
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                code = main(["--repo", str(fixture.root), "scan", "--format", "sarif"])
+            payload = json.loads(output.getvalue())
+            self.assertEqual(code, EXIT_OK)
+            run = payload["runs"][0]
+            self.assertEqual(run["tool"]["driver"]["name"], "git-path-doctor")
+            self.assertTrue(run["invocations"][0]["properties"]["readOnly"])
+            self.assertTrue(run["results"])
+        finally:
+            fixture.close()
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -56,11 +56,14 @@ git-path-doctor explain src/app.py --json
 git-path-doctor scan
 git-path-doctor scan --json
 git-path-doctor scan --fail-on error
+git-path-doctor scan --format sarif > path-report.sarif
 ```
 
 默认扫描只报告信息并返回退出码 `0`。在持续集成中，可以用 `--fail-on warning` 或 `--fail-on error` 把对应严重度变成退出码 `10`。
 
 报告会给出证据和谨慎的下一步建议，但不会执行建议命令。
+
+`sarif` 会输出 SARIF 2.1.0，`explain` 使用仓库相对路径定位，并标记只读执行；`--json` 仍然兼容，等价于 `--format json`。
 
 ## 安全边界
 

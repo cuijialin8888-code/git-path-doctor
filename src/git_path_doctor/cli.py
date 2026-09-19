@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import json
 import sys
 from collections.abc import Sequence
 
@@ -9,6 +8,7 @@ from . import __version__
 from .analyze import analyze_path, scan_repository
 from .git import GitError, GitRepository
 from .models import Finding, PathReport, ScanReport
+from .render import render_explain, render_scan
 
 
 EXIT_OK = 0
@@ -29,9 +29,21 @@ def _parser() -> argparse.ArgumentParser:
     explain = subparsers.add_parser("explain", help="Explain Git's state for one or more paths.")
     explain.add_argument("paths", nargs="+", help="Repository-relative paths to explain.")
     explain.add_argument("--json", action="store_true", help="Emit a stable JSON report.")
+    explain.add_argument(
+        "--format",
+        choices=("text", "json", "sarif"),
+        default="text",
+        help="Report format (default: text).",
+    )
 
     scan = subparsers.add_parser("scan", help="Find hidden index flags, conflicts, and case collisions.")
     scan.add_argument("--json", action="store_true", help="Emit a stable JSON report.")
+    scan.add_argument(
+        "--format",
+        choices=("text", "json", "sarif"),
+        default="text",
+        help="Report format (default: text).",
+    )
     scan.add_argument(
         "--fail-on",
         choices=("never", "warning", "error"),
@@ -126,21 +138,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     try:
         repository = GitRepository.discover(args.repo)
+        format_name = "json" if args.json else args.format
         if args.command == "explain":
             reports = [analyze_path(repository, path) for path in args.paths]
-            if args.json:
-                print(
-                    json.dumps(
-                        {
-                            "tool": "git-path-doctor",
-                            "version": __version__,
-                            "repository": str(repository.root),
-                            "paths": [report.to_dict() for report in reports],
-                        },
-                        indent=2,
-                        ensure_ascii=False,
-                    )
-                )
+            if format_name != "text":
+                print(render_explain(reports, format_name, str(repository.root)), end="")
             else:
                 for index, report in enumerate(reports):
                     if index:
@@ -149,10 +151,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             return EXIT_OK
         if args.command == "scan":
             report = scan_repository(repository)
-            if args.json:
-                payload = report.to_dict()
-                payload.update({"tool": "git-path-doctor", "version": __version__})
-                print(json.dumps(payload, indent=2, ensure_ascii=False))
+            if format_name != "text":
+                print(render_scan(report, format_name), end="")
             else:
                 _print_scan_report(report)
             return EXIT_FINDING if _should_fail(report, args.fail_on) else EXIT_OK

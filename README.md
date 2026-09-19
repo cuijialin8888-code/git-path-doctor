@@ -96,6 +96,7 @@ Commands shown under `Next` are suggestions only. Git Path Doctor never runs the
 git-path-doctor scan
 git-path-doctor scan --json
 git-path-doctor scan --fail-on error
+git-path-doctor scan --format sarif > path-report.sarif
 ```
 
 `scan` inventories the states most likely to make a checkout misleading:
@@ -131,6 +132,11 @@ The scope is intentionally narrow: explain local path state with Git’s own evi
 ## JSON output
 
 JSON includes the tool version, repository root, normalized paths, raw evidence fields, findings, and suggestions. Field names are additive within the `0.x` series; consumers should ignore unknown fields.
+
+The `sarif` format maps findings to SARIF 2.1.0 results, uses repository-relative
+path locations for `explain`, and marks the invocation as read-only for CI
+consumers. `--json` remains supported as a compatibility shortcut for
+`--format json`.
 
 See [how it works](docs/how-it-works.md) and the [JSON report reference](docs/report-schema.md). See the [path debugging workflow](docs/path-debugging.md) for a repeatable explain-versus-scan sequence.
 
