@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- Add opt-in `--fail-on` policy gates to `explain` with the same severity thresholds and exit code 10 as `scan`.
+
 ### Added
 
 - A path debugging workflow separating single-path explanation from repository-wide hidden-state scanning.

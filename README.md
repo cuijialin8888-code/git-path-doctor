@@ -150,6 +150,14 @@ See [how it works](docs/how-it-works.md) and the [JSON report reference](docs/re
 
 See [SECURITY.md](SECURITY.md) for the security boundary and disclosure process.
 
+## Single-path automation gates
+
+On `main` (unreleased), `explain` supports `--fail-on never|warning|error`, matching the existing `scan` policy. It evaluates findings from every requested path while preserving the selected text, JSON, or SARIF report. The default remains `never`; a matching finding returns exit code 10. Operational Git errors still return exit code 3.
+
+```console
+git-path-doctor --repo . explain src/example.py --format json --fail-on warning
+```
+
 ## Development
 
 ```bash
