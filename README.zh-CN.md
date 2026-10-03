@@ -81,3 +81,8 @@ git-path-doctor scan --format sarif > path-report.sarif
 ## 许可证
 
 MIT
+
+## 单路径检查的自动化退出策略
+
+`main` 分支新增（尚未发布版本）：`explain` 支持与 `scan` 一致的 `--fail-on never|warning|error`，对所有指定路径的检查结果评估。默认仍是 `never`；达到阈值时返回退出码 10，Git 运行错误仍返回 3，文本、JSON 和 SARIF 报告保持原有格式。
+

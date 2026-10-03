@@ -35,6 +35,12 @@ def _parser() -> argparse.ArgumentParser:
         default="text",
         help="Report format (default: text).",
     )
+    explain.add_argument(
+        "--fail-on",
+        choices=("never", "warning", "error"),
+        default="never",
+        help="Return exit code 10 at or above this severity (default: never).",
+    )
 
     scan = subparsers.add_parser("scan", help="Find hidden index flags, conflicts, and case collisions.")
     scan.add_argument("--json", action="store_true", help="Emit a stable JSON report.")
@@ -126,7 +132,7 @@ def _print_scan_report(report: ScanReport) -> None:
             print("  - " + " | ".join(group))
 
 
-def _should_fail(report: ScanReport, threshold: str) -> bool:
+def _should_fail(report: ScanReport | PathReport, threshold: str) -> bool:
     if threshold == "never":
         return False
     ranks = {"info": 0, "warning": 1, "error": 2}
@@ -148,7 +154,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                     if index:
                         print()
                     _print_path_report(report)
-            return EXIT_OK
+            return EXIT_FINDING if any(_should_fail(report, args.fail_on) for report in reports) else EXIT_OK
         if args.command == "scan":
             report = scan_repository(repository)
             if format_name != "text":
